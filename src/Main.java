@@ -68,11 +68,76 @@ public class Main {
          return ans[0];
      }
 
+    int max_len;
+    int cur;
+    int pre;
+    class Node {
+        int val;
+        int count;
+        Node(int val, int count){
+            this.val = val;
+            this.count = count;
+        }
+    }
+    void dfs(TreeNode root, Stack<Node> ans) {
+        if (root == null) {
+            return;
+        }
+
+        dfs(root.left, ans);
+
+        if (this.pre == root.val) {
+            this.cur++;
+        } else {
+            this.cur = 1;
+        }
+
+        if (this.cur >= this.max_len) {
+            this.max_len = this.cur;
+            while (!ans.isEmpty()) {
+                Node tmp = ans.peek();
+                if (tmp.val == root.val || tmp.count < this.max_len)
+                    ans.pop();
+                else
+                    break;
+            }
+            ans.push(new Node(root.val, this.cur));
+        }
+
+        this.pre = root.val;
+        dfs(root.right, ans);
+    }
+
+    public int[] findMode(TreeNode root) {
+        this.max_len = 0;
+        this.cur = 1;
+        this.pre = -1;
+        Stack<Node> st = new Stack<>();
+        dfs(root, st);
+        int[] ans = new int[st.size()];
+        for (int i=0;!st.isEmpty(); i++) {
+            Node t = st.pop();
+            ans[i] = t.val;
+        }
+        return ans;
+    }
 
 
     public static void main(String[] args) {
             Main s = new Main();
-            int[] nums = {1,1,2,4,5,5};
-            s.permuteUnique(nums);
+//            int[] nums = {1,1,2,4,5,5};
+//            s.permuteUnique(nums);
+        TreeNode root = new TreeNode(1);
+        TreeNode a = new TreeNode(1);
+        TreeNode b = new TreeNode(2);
+        root.right = b;
+        root.left = a;
+        int[] ans = s.findMode(root);
+        for (int i = 0; i < ans.length; i++) {
+            System.out.println(ans[i]);
+
+        }
+
+
     }
 }
