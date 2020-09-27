@@ -122,6 +122,24 @@ public class Main {
         return ans;
     }
 
+//    https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+    TreeNode construct(int inL, int inR, int postL, int postR, int[] inorder, int[] postorder) {
+        if (inL > inR)
+            return null;
+        int val = postorder[postR];
+
+        int mid;
+        for (mid=inL; mid<=inR; mid++) {
+            if (inorder[mid] == val)
+                break;
+        }
+        int leftLen = mid - inL;
+        TreeNode root = new TreeNode(val);
+        root.left = construct(inL, mid-1, postL, postL+leftLen-1, inorder, postorder);
+        root.right = construct(mid+1, inR, postL+leftLen, postR-1, inorder, postorder);
+        return root;
+    }
+
 //    https://leetcode-cn.com/problems/compress-string-lcci/
     public String compressString(String S) {
         if (S.length() < 2)
@@ -164,8 +182,8 @@ public class Main {
 //
 //        }
 
-        String str = "aav";
-        System.out.println(s.compressString(str));
+        }
+
 
     }
 }
