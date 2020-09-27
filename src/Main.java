@@ -122,22 +122,50 @@ public class Main {
         return ans;
     }
 
+//    https://leetcode-cn.com/problems/compress-string-lcci/
+    public String compressString(String S) {
+        if (S.length() < 2)
+            return S;
+        StringBuilder sb = new StringBuilder();
+        char pre = S.charAt(0);
+        int count = 1;
+        char cur = '0';
+        for (int i = 1; i < S.length(); i++) {
+            cur = S.charAt(i);
+            if (cur == pre) {
+                count++;
+            } else {
+                sb.append(pre);
+                sb.append(count);
+                pre = cur;
+                count = 1;
+            }
+        }
+        sb.append(cur);
+        sb.append(count);
 
+        if (sb.length() >= S.length()) {
+            return S;
+        }
+        return sb.toString();
+    }
     public static void main(String[] args) {
             Main s = new Main();
 //            int[] nums = {1,1,2,4,5,5};
 //            s.permuteUnique(nums);
-        TreeNode root = new TreeNode(1);
-        TreeNode a = new TreeNode(1);
-        TreeNode b = new TreeNode(2);
-        root.right = b;
-        root.left = a;
-        int[] ans = s.findMode(root);
-        for (int i = 0; i < ans.length; i++) {
-            System.out.println(ans[i]);
+//        TreeNode root = new TreeNode(1);
+//        TreeNode a = new TreeNode(1);
+//        TreeNode b = new TreeNode(2);
+//        root.right = b;
+//        root.left = a;
+//        int[] ans = s.findMode(root);
+//        for (int i = 0; i < ans.length; i++) {
+//            System.out.println(ans[i]);
+//
+//        }
 
-        }
-
+        String str = "aav";
+        System.out.println(s.compressString(str));
 
     }
 }
