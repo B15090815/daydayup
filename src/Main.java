@@ -167,23 +167,78 @@ public class Main {
         }
         return sb.toString();
     }
-    public static void main(String[] args) {
-            Main s = new Main();
-//            int[] nums = {1,1,2,4,5,5};
-//            s.permuteUnique(nums);
-//        TreeNode root = new TreeNode(1);
-//        TreeNode a = new TreeNode(1);
-//        TreeNode b = new TreeNode(2);
-//        root.right = b;
-//        root.left = a;
-//        int[] ans = s.findMode(root);
-//        for (int i = 0; i < ans.length; i++) {
-//            System.out.println(ans[i]);
-//
-//        }
+
+
+//    https://leetcode-cn.com/problems/friend-circles/
+    public int findCircleNum(int[][] M) {
+        int N = M.length;
+        UFset f = new UFset(N);
+        for (int i = 0; i < N; i++) {
+            for (int j = i; j < N; j++) {
+                if (i == j)
+                    continue;
+                if (M[i][j] == 1) {
+                    f.Union(i, j);
+                }
+            }
 
         }
 
+        int ans = 0;
+        for (int i = 0; i < f.father.length; i++) {
+            if (f.father[i] != -1)
+                ans++;
+        }
+        return ans;
+    }
 
+    public static void main(String[] args) {
+        Main s = new Main();
+        int[][] m = {
+                {1,1,0},
+                {1,1,1},
+                {0,1,1}
+        };
+        int ans = s.findCircleNum(m);
+        System.out.println(ans);
+    }
+}
+
+
+class UFset {
+    int[] father;
+
+    UFset(int n) {
+        father = new int[n];
+        for (int i = 0; i < n; i++) {
+            father[i] = -1;
+        }
+    }
+
+    int Find(int x) {
+        int t = x;
+        while (father[x] != -1) {
+            x = father[x];
+        }
+
+        while (father[t] != -1) {
+            int u = father[t];
+            father[t] = x;
+            t = u;
+        }
+        return x;
+    }
+
+    void Union(int p, int q) {
+        int r1 = Find(p);
+        int r2 = Find(q);
+        if (r1 != r2)
+            father[r1] = r2;
+    }
+
+    void Print() {
+        for (int i = 0; i < father.length; i++) {
+            System.out.print(father[i] + " ");
+        }
     }
 }
