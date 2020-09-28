@@ -215,28 +215,51 @@ public class Main {
         Queue<Node> que = new LinkedList<>();
 
         que.add(root);
+        Node dummy = new Node(-1);
         while (!que.isEmpty()) {
-            Node pre = que.poll();
+            Node p = dummy;
             int curSize = que.size();
-
-            if (pre.left != null)
-                que.add(pre.left);
-            if (pre.right != null)
-                que.add(pre.right);
-
             for (int i = 0; i < curSize; i++) {
                 Node cur = que.poll();
+                p.next = cur;
+                p = cur;
                 if (cur.left != null)
                     que.add(cur.left);
                 if (cur.right != null)
                     que.add(cur.right);
-                pre.next = cur;
-                pre = cur;
             }
         }
         return root;
     }
 
+    void dfs(int r, int c, char[][] grid, boolean[][] visited) {
+        visited[r][c] = true;
+        int[] dy = {-1, 1, -1, 1, 0, 0, 0, 0};
+        int[] dx = {0, 0, 0, 0, 1, -1, 1, -1};
+        for (int i = 0; i < 8; i++) {
+            int x = r + dx[i];
+            int y = c + dy[i];
+            if (x < 0 || x >= grid.length || y < 0 || y >= grid[0].length || visited[x][y] || grid[x][y] == '0')
+                continue;
+            dfs(x, y, grid, visited);
+        }
+    }
+
+    public int numIslands(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] visited = new boolean[m][n];
+        int count = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1' && !visited[i][j]) {
+                    dfs(i, j, grid, visited);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
 
 
     public static void main(String[] args) {
