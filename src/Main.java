@@ -8,6 +8,20 @@ class TreeNode {
     TreeNode(int x) { val = x; }
 }
 
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node next;
+
+    public Node() {
+    }
+
+    public Node(int _val) {
+        val = _val;
+    }
+}
+
 public class Main {
 
     // https://leetcode-cn.com/problems/permutations-ii/
@@ -68,59 +82,60 @@ public class Main {
          return ans[0];
      }
 
-    int max_len;
-    int cur;
-    int pre;
-    class Node {
-        int val;
-        int count;
-        Node(int val, int count){
-            this.val = val;
-            this.count = count;
-        }
-    }
-    void dfs(TreeNode root, Stack<Node> ans) {
-        if (root == null) {
-            return;
-        }
 
-        dfs(root.left, ans);
-
-        if (this.pre == root.val) {
-            this.cur++;
-        } else {
-            this.cur = 1;
-        }
-
-        if (this.cur >= this.max_len) {
-            this.max_len = this.cur;
-            while (!ans.isEmpty()) {
-                Node tmp = ans.peek();
-                if (tmp.val == root.val || tmp.count < this.max_len)
-                    ans.pop();
-                else
-                    break;
-            }
-            ans.push(new Node(root.val, this.cur));
-        }
-
-        this.pre = root.val;
-        dfs(root.right, ans);
-    }
-
-    public int[] findMode(TreeNode root) {
-        this.max_len = 0;
-        this.cur = 1;
-        this.pre = -1;
-        Stack<Node> st = new Stack<>();
-        dfs(root, st);
-        int[] ans = new int[st.size()];
-        for (int i=0;!st.isEmpty(); i++) {
-            Node t = st.pop();
-            ans[i] = t.val;
-        }
-        return ans;
-    }
+//    int max_len;
+//    int cur;
+//    int pre;
+//    class Node {
+//        int val;
+//        int count;
+//        Node(int val, int count){
+//            this.val = val;
+//            this.count = count;
+//        }
+//    }
+//    void dfs(TreeNode root, Stack<Node> ans) {
+//        if (root == null) {
+//            return;
+//        }
+//
+//        dfs(root.left, ans);
+//
+//        if (this.pre == root.val) {
+//            this.cur++;
+//        } else {
+//            this.cur = 1;
+//        }
+//
+//        if (this.cur >= this.max_len) {
+//            this.max_len = this.cur;
+//            while (!ans.isEmpty()) {
+//                Node tmp = ans.peek();
+//                if (tmp.val == root.val || tmp.count < this.max_len)
+//                    ans.pop();
+//                else
+//                    break;
+//            }
+//            ans.push(new Node(root.val, this.cur));
+//        }
+//
+//        this.pre = root.val;
+//        dfs(root.right, ans);
+//    }
+//
+//    public int[] findMode(TreeNode root) {
+//        this.max_len = 0;
+//        this.cur = 1;
+//        this.pre = -1;
+//        Stack<Node> st = new Stack<>();
+//        dfs(root, st);
+//        int[] ans = new int[st.size()];
+//        for (int i=0;!st.isEmpty(); i++) {
+//            Node t = st.pop();
+//            ans[i] = t.val;
+//        }
+//        return ans;
+//    }
 
 //    https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
     TreeNode construct(int inL, int inR, int postL, int postR, int[] inorder, int[] postorder) {
@@ -192,15 +207,52 @@ public class Main {
         return ans;
     }
 
+//    https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node-ii/
+    public Node connect(Node root) {
+        if (root == null)
+            return null;
+
+        Queue<Node> que = new LinkedList<>();
+
+        que.add(root);
+        while (!que.isEmpty()) {
+            Node pre = que.poll();
+            int curSize = que.size();
+
+            if (pre.left != null)
+                que.add(pre.left);
+            if (pre.right != null)
+                que.add(pre.right);
+
+            for (int i = 0; i < curSize; i++) {
+                Node cur = que.poll();
+                if (cur.left != null)
+                    que.add(cur.left);
+                if (cur.right != null)
+                    que.add(cur.right);
+                pre.next = cur;
+                pre = cur;
+            }
+        }
+        return root;
+    }
+
+
+
     public static void main(String[] args) {
         Main s = new Main();
-        int[][] m = {
-                {1,1,0},
-                {1,1,1},
-                {0,1,1}
-        };
-        int ans = s.findCircleNum(m);
-        System.out.println(ans);
+        Node root = new Node(1);
+        Node a = new Node(2);
+        Node b = new Node(3);
+        Node c = new Node(4);
+        Node d = new Node(5);
+        Node e = new Node(7);
+        root.left = a;
+        root.right = b;
+        a.left = c;
+        a.right = d;
+        b.right = e;
+        s.connect(root);
     }
 }
 
