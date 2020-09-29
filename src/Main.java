@@ -192,15 +192,63 @@ public class Main {
         return ans;
     }
 
+//    https://leetcode-cn.com/problems/binary-tree-postorder-traversal/
+    public List<Integer> postorderTraversal(TreeNode root) {
+        if (root == null)
+            return new ArrayList<>();
+
+        Stack<TreeNode> st = new Stack<>();
+        st.add(root);
+        while (!st.isEmpty()) {
+            TreeNode cur = st.pop();
+            if (cur.right != null)
+                st.push(cur.right);
+        }
+
+        return null;
+    }
+
+//    https://leetcode-cn.com/problems/group-anagrams-lcci/
+    String calHash(String str) {
+        int[] h = new int[26];
+        for (int i = 0; i < str.length(); i++) {
+            int k = str.charAt(i) - 'a';
+            h[k] = h[k] + 1;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 26; i++) {
+            for (int j = 0; j < h[i]; j++) {
+                sb.append((char)(i + 'a'));
+            }
+        }
+        return sb.toString();
+    }
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> ans = new ArrayList<>();
+        int g = 0;
+        Map<String, Integer> mp = new HashMap<>();
+        for (int i = 0; i < strs.length; i++) {
+            String sum = calHash(strs[i]);
+            if (mp.containsKey(sum)) {
+                ans.get(mp.get(sum)).add(strs[i]);
+            } else {
+                ArrayList<String> group = new ArrayList<>();
+                group.add(strs[i]);
+                ans.add(group);
+                mp.put(sum, g);
+                g++;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         Main s = new Main();
-        int[][] m = {
-                {1,1,0},
-                {1,1,1},
-                {0,1,1}
-        };
-        int ans = s.findCircleNum(m);
-        System.out.println(ans);
+        String[] str = {"eat", "tea", "tan", "ate", "nat", "bat"};
+        System.out.println(s.groupAnagrams(str));
+//        System.out.println(s.calHash("ill"));
+//        System.out.println(s.calHash("hud"));
     }
 }
 
