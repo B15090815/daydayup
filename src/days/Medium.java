@@ -1,9 +1,7 @@
 package days;
 import common.ListNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Medium {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
@@ -116,17 +114,56 @@ public class Medium {
         return ans;
     }
 
+//    https://leetcode-cn.com/problems/sum-of-distances-in-tree/
+    int bfs(int start, int N, boolean[][] map) {
+        Queue<Integer> que = new LinkedList<>();
+        que.add(start);
+        int depth = 0;
+        int sum = 0;
+        boolean[] visited = new boolean[N];
+        visited[start] = true;
+        while (!que.isEmpty()) {
+            int L = que.size();
+            sum += depth * L;
+            for (int j = 0; j < L; j++) {
+                int s = que.poll();
+                for (int i = 0; i < N; i++) {
+                    if (map[s][i] && !visited[i]) {
+                        que.add(i);
+                        visited[i] = true;
+                    }
+                }
+            }
+            depth++;
+        }
+        return sum;
+    }
+
+    public int[] sumOfDistancesInTree(int N, int[][] edges) {
+        int[] ans = new int[N];
+        boolean[][] map = new boolean[N][N];
+        for (int i = 0; i < edges.length; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            map[u][v] = true;
+            map[v][u] = true;
+        }
+
+        for (int i = 0; i < N; i++) {
+            ans[i] = bfs(i, N, map);
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         Medium solution = new Medium();
-//        int[] nums = {-499,-486,-479,-462,-456,-430,-415,-413,-399,-381,-353,-349,-342,-337,-336,-331,-330,-322,-315,-280,-271,-265,-249,-231,-226,-219,-216,-208,-206,-204,-188,-159,-144,-139,-123,-115,-99,-89,-80,-74,-61,-22,-22,-8,-5,4,43,65,82,86,95,101,103,123,149,152,162,165,168,183,204,209,209,220,235,243,243,244,248,253,260,273,281,284,288,290,346,378,382,384,407,411,423,432,433,445,470,476,497};
-        int[] nums = {-2,-1,-1,1,1,2,2};
-        int target = 0;
-        List<List<Integer>> ans = solution.fourSum2(nums, target);
-        for (List<Integer> temp: ans) {
-            for (Integer a: temp) {
-                System.out.print(a + "  ");
-            }
-            System.out.println();
+        int n = 5;
+        int[][]edges = {{0,1}, {0,2}, {2,3}, {2,4}};
+        int[] ans = solution.sumOfDistancesInTree(n, edges);
+        for (int a :
+                ans) {
+        System.out.println(a);
+
         }
     }
 }
