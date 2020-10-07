@@ -1,7 +1,11 @@
 package days;
 import common.ListNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class Medium {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
@@ -182,15 +186,6 @@ public class Medium {
                 }
             }
             i++;
-        }
-    }
-    public static void main(String[] args) {
-        Medium solution = new Medium();
-        int[] nums = {2,1};
-        solution.sortColors(nums);
-        for (int a :
-                nums) {
-            System.out.println(a);
         }
     }
 }
