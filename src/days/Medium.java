@@ -1,7 +1,11 @@
 package days;
 import common.ListNode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class Medium {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
@@ -155,15 +159,33 @@ public class Medium {
         return ans;
     }
 
-    public static void main(String[] args) {
-        Medium solution = new Medium();
-        int n = 5;
-        int[][]edges = {{0,1}, {0,2}, {2,3}, {2,4}};
-        int[] ans = solution.sumOfDistancesInTree(n, edges);
-        for (int a :
-                ans) {
-        System.out.println(a);
+//    https://leetcode-cn.com/problems/sort-colors/
+    void swap(int i, int j, int[] nums) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
 
+    public void sortColors(int[] nums) {
+        int k = 0, j = nums.length - 1;
+        int i = 0;
+        while (k < j && i <= j ) {
+            while (i <= j && k <= j && nums[i] != 1) {
+                if (nums[i] == 0) {
+                    if (i > k)
+                        swap(i, k, nums);
+                    else
+                       i++;
+                    k++;
+                } else {
+                    if (i < j)
+                        swap(i, j, nums);
+                    else
+                        i++;
+                    j--;
+                }
+            }
+            i++;
         }
     }
 }
