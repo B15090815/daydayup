@@ -190,7 +190,6 @@ public class Medium {
     }
 
 //    https://leetcode-cn.com/problems/first-common-ancestor-lcci/
-
     TreeNode LCS(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null)
             return null;
@@ -218,4 +217,72 @@ public class Medium {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         return LCS(root, p, q);
     }
+
+//    https://leetcode-cn.com/problems/linked-list-cycle-ii/
+    public ListNode detectCycle(ListNode head) {
+        if (head == null)
+            return null;
+
+        ListNode slow = head, fast = head;
+        while (fast != null) {
+            fast = fast.next;
+            if (fast == slow)
+                break;
+
+            if (fast != null) {
+                fast = fast.next;
+                if (fast == slow)
+                    break;
+            }
+            slow = slow.next;
+        }
+
+        if (fast == null)
+            return null;
+
+        ListNode entry = head;
+        boolean found = false;
+        while (!found) {
+            ListNode p = slow;
+            do{
+                if (p == entry) {
+                    found = true;
+                    break;
+                }
+                p = p.next;
+            }while (p != slow);
+
+
+            if (!found)
+                entry = entry.next;
+        }
+
+        return entry;
+    }
+
+    public ListNode detectCycle2(ListNode head) {
+        if (head == null)
+            return null;
+
+        ListNode fast = head, slow = head;
+        while (fast != null) {
+            if (fast.next == null)
+                break;
+
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                ListNode ptr = head;
+                while (ptr != slow) {
+                    ptr = ptr.next;
+                    slow = slow.next;
+                }
+                return ptr;
+            }
+        }
+
+        return null;
+    }
+
+
 }
