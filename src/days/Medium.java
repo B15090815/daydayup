@@ -284,5 +284,44 @@ public class Medium {
         return null;
     }
 
+//    https://leetcode-cn.com/problems/partition-equal-subset-sum/
+    // dfs can not solve this problem!
+    boolean dfs(int depth, int sum, int target, int[] nums) {
+        if (sum == target)
+            return true;
+        if (depth >= nums.length || sum > target)
+            return false;
+        boolean ans = dfs(depth+1, sum+nums[depth], target, nums);
+        if (ans)
+            return ans;
+        return dfs(depth+1, sum, target, nums);
+    }
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        int maxNum = -1;
+        for (int a: nums) {
+            sum += a;
+            maxNum = maxNum < a ? a : maxNum;
+        }
+        int target = sum >> 1;
+        if ((sum & 1) == 1 || maxNum > target) {
+            return false;
+        }
+
+        int N = nums.length;
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true;
+        if (nums[0] <= target)
+            dp[nums[0]] = true;
+        for (int i = 0; i < N; i++) {
+            for (int j = target; j >= nums[i] ; j--) {
+                if (dp[target])
+                    return true;
+                dp[j] = dp[j - nums[i]] || dp[j];
+            }
+        }
+
+        return dp[target];
+    }
 
 }
