@@ -115,5 +115,26 @@ public class Easy {
         }
         return root;
     }
+
+//    https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/
+    TreeNode pre530;
+    int ans530;
+    void dfs(TreeNode root) {
+        if (root == null)
+            return;
+        dfs(root.left);
+        if (pre530 != null) {
+            ans530 = Math.min(Math.abs(root.val - pre530.val), ans530);
+        }
+        pre530 = root;
+        dfs(root.right);
+    }
+
+    public int getMinimumDifference(TreeNode root) {
+        this.pre530 = null;
+        this.ans530 =Integer.MAX_VALUE;
+        dfs(root);
+        return ans530;
+    }
 }
 
