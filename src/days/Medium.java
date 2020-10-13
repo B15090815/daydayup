@@ -345,5 +345,40 @@ public class Medium {
         p.next = null;
         return dummy.next;
     }
+
+//    https://leetcode-cn.com/problems/reverse-nodes-in-k-group/
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode dummy = new ListNode(-1);
+        ListNode fake = new ListNode(-1);
+        ListNode p = head, cur = dummy, tail, next;
+        int count;
+        while (p != null) {
+            count = k;
+            tail = p;
+            while (count > 0 && p != null) {
+                next = p.next;
+                p.next = fake.next;
+                fake.next = p;
+                p = next;
+                count--;
+            }
+
+            if (count == 0) {
+                cur.next = fake.next;
+                cur = tail;
+                fake.next = null;
+            } else {
+                for(p = fake.next; p!=null; p = next) {
+                    next = p.next;
+                    p.next = cur.next;
+                    cur.next = p;
+                }
+                break;
+            }
+        }
+        return dummy.next;
+    }
+
 }
+
 
