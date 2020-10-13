@@ -324,4 +324,26 @@ public class Medium {
         return dp[target];
     }
 
+//    https://leetcode-cn.com/problems/swap-nodes-in-pairs/
+    public ListNode swapPairs(ListNode head) {
+        ListNode slow, fast, cur = head;
+        ListNode dummy = new ListNode(-1);
+        ListNode p =dummy;
+        while (cur !=null) {
+            slow = cur;
+            fast = cur.next;
+            if (fast != null) {
+                p.next = fast;
+                p = p.next;
+                cur = fast.next;
+            } else {
+                cur = null;
+            }
+            p.next = slow;
+            p = p.next;
+        }
+        p.next = null;
+        return dummy.next;
+    }
 }
+
