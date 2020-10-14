@@ -30,4 +30,17 @@ public class Medium {
 
         return dp[m][n];
     }
+
+//    https://leetcode-cn.com/problems/counting-bits/
+    public int[] countBits(int num) {
+        int[] ans = new int[num+1];
+        for (int i = 1; i <= num; i++) {
+            int n = i;
+            while (n != 0) {
+                n = n & (n-1);
+                ans[i]++;
+            }
+        }
+        return ans;
+    }
 }
