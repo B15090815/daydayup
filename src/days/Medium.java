@@ -379,6 +379,35 @@ public class Medium {
         return dummy.next;
     }
 
+//    https://leetcode-cn.com/problems/find-common-characters/
+    public List<String> commonChars(String[] A) {
+        int[][] map = new int[A.length][26];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[i].length(); j++) {
+                int k = (int)(A[i].charAt(j) - 'a');
+                map[i][k]++;
+            }
+        }
+
+        int target = 0;
+        List<String> ans = new ArrayList<>();
+        for (int j = 0; j < 26; j++) {
+            target = Integer.MAX_VALUE;
+            for (int i = 0; i < A.length; i++) {
+                target = Math.min(target, map[i][j]);
+
+            }
+
+            if (target !=0) {
+                for (int i = 0; i < target; i++) {
+                    char ch = (char)('a' + j);
+                    ans.add(String.valueOf(ch));
+                }
+            }
+        }
+        return ans;
+    }
+
 }
 
 
