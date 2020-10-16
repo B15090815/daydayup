@@ -43,4 +43,52 @@ public class Medium {
         }
         return ans;
     }
+
+//    https://leetcode-cn.com/problems/longest-turbulent-subarray/submissions/
+    public int maxTurbulenceSize(int[] A) {
+        int[][] dp = new int[2][A.length];
+        dp[0][0] = 1;
+        dp[1][0] = 1;
+        for (int i=0; i<A.length - 1;i++) {
+            if ( (i & 1) == 0) {
+                // 偶数位置
+                if (A[i] > A[i+1]) {
+                    // c1
+                    dp[1][i+1] = dp[1][i] + 1;
+                    dp[0][i+1] = 1;
+                } else if (A[i] < A[i+1]){
+                    // c2
+                    dp[0][i+1] = dp[0][i] + 1;
+                    dp[1][i+1] = 1;
+                } else {
+                    dp[0][i+1] = 1;
+                    dp[1][i+1] = 1;
+                }
+
+            } else {
+                // 奇数位置
+                if (A[i] > A[i+1]) {
+                    // c1
+                    dp[0][i+1] = dp[0][i] + 1;
+                    dp[1][i+1] = 1;
+                } else if (A[i] < A[i+1]){
+                    // c2
+                    dp[1][i+1] = dp[1][i] + 1;
+                    dp[0][i+1] = 1;
+                } else {
+                    dp[0][i+1] = 1;
+                    dp[1][i+1] = 1;
+                }
+            }
+        }
+
+        int ans = Integer.MIN_VALUE;
+        for (int i=0;i<A.length;i++) {
+            ans = Math.max(ans, dp[0][i]);
+            ans = Math.max(ans, dp[1][i]);
+        }
+        return ans;
+
+    }
+
 }
