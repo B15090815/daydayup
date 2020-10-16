@@ -408,6 +408,90 @@ public class Medium {
         return ans;
     }
 
+//    https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/
+    public Node connect(Node root) {
+        if (root == null)
+            return null;
+
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            Node pre = queue.poll();
+            if (pre.left != null)
+                queue.add(pre.left);
+            if (pre.right != null)
+                queue.add(pre.right);
+            Node next;
+            for (int i = 1; i < size; i++) {
+                next = queue.poll();
+                pre.next = next;
+                pre = next;
+                if (next.left != null)
+                    queue.add(next.left);
+
+                if (next.right != null)
+                    queue.add(next.right);
+            }
+
+        }
+        return root;
+    }
+
+//    https://leetcode-cn.com/problems/squares-of-a-sorted-array/
+    public int[] sortedSquares(int[] A) {
+        int k = -1;
+        while (++k < A.length && A[k] < 0);
+        int j = k;
+        k--;
+
+        int i=0;
+        int[] ans = new int[A.length];
+        while (j<A.length && k>=0) {
+            if (Math.abs(A[k]) < A[j]) {
+                ans[i] = A[k] * A[k];
+                k--;
+            } else {
+                ans[i] = A[j] * A[j];
+                j++;
+            }
+            i++;
+        }
+
+        while (j < A.length) {
+            ans[i++] = A[j] * A[j];
+            j++;
+
+        }
+
+        while (k>=0) {
+            ans[i++] = A[k] * A[k];
+            k--;
+        }
+
+        return ans;
+    }
 }
 
 
+
+
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node next;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, Node _left, Node _right, Node _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+};
