@@ -6,6 +6,6 @@
  * @LastEditTime: 2020-10-04 17:03:19
 -->
 
-# Day day up
+# Day day up!
 
 `To be a better man.`
