@@ -471,6 +471,31 @@ public class Medium {
 
         return ans;
     }
+
+//    https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode fast = dummy;
+        while (fast != null && n > 0) {
+            fast = fast.next;
+            n--;
+        }
+
+        if (n == 0) {
+            ListNode slow = dummy;
+            ListNode pre = dummy;
+            while (fast != null) {
+                fast = fast.next;
+                pre = slow;
+                slow = slow.next;
+            }
+            pre.next =slow.next;
+        }
+        return dummy.next;
+    }
+
+
 }
 
 
