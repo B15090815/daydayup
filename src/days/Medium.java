@@ -495,6 +495,29 @@ public class Medium {
         return dummy.next;
     }
 
+//    https://leetcode-cn.com/problems/find-the-duplicate-number/
+    public int findDuplicate(int[] nums) {
+        boolean found = false;
+        int dup = 0;
+        for (int i = 0; i < nums.length && !found; i++) {
+            int cur = i + 1;
+            if (nums[i] == cur)
+                continue;
+            while (nums[i] != cur) {
+                int index = nums[i] - 1;
+                int temp = nums[index];
+                if (temp == nums[i]) {
+                    dup = temp;
+                    found = true;
+                    break;
+                }
+                nums[index] = nums[i];
+                nums[i] = temp;
+            }
+        }
+        return dup;
+    }
+
 
 }
 
