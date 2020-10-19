@@ -136,5 +136,37 @@ public class Easy {
         dfs(root);
         return ans530;
     }
+
+//    https://leetcode-cn.com/problems/backspace-string-compare/
+    String delete(char[] str) {
+        for (int i = 0; i < str.length; i++) {
+            if (str[i] == '#') {
+                for (int j = i-1; j >=0 ; j--) {
+                    if (str[j] != '.') {
+                        str[j] = '.';
+                        break;
+                    }
+                }
+                str[i] = '.';
+            }
+        }
+        int k = 0;
+        for (int i = 0; i < str.length; i++) {
+            if (str[i] != '.') {
+                str[k] = str[i];
+                k++;
+            }
+        }
+
+        return new String(str, 0, k);
+    }
+    public boolean backspaceCompare(String S, String T) {
+        String a = delete(S.toCharArray());
+        String b = delete(T.toCharArray());
+        return a.equals(b);
+    }
+
+
 }
+
 

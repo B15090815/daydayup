@@ -24,4 +24,12 @@ public class EasyTest {
         System.out.println(ans);
         solution.deserialize(ans);
     }
+
+    @Test
+    public void backspaceCompare() {
+        String a = "ab#c";
+        String b = "ad#c";
+        boolean ans = solution.backspaceCompare(a, b);
+        System.out.println(ans);
+    }
 }
