@@ -32,4 +32,6 @@ public class EasyTest {
         boolean ans = solution.backspaceCompare(a, b);
         System.out.println(ans);
     }
+
+
 }

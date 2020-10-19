@@ -41,4 +41,10 @@ public class MediumTest {
         int a = solution.findDuplicate(nums);
         System.out.println(a);
     }
+
+    @Test
+    public void longestMountain() {
+        int[] nums = {0,2,2};
+        System.out.println(solution.longestMountain(nums));
+    }
 }

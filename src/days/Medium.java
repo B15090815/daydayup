@@ -518,6 +518,35 @@ public class Medium {
         return dup;
     }
 
+//    https://leetcode-cn.com/problems/longest-mountain-in-array/
+    public int longestMountain(int[] A) {
+        int n = A.length;
+        if (n <= 2)
+            return 0;
+
+        int[] diff = new int[n - 1];
+        for (int i = 1; i < n; i++) {
+            diff[i-1] = A[i] - A[i-1];
+        }
+
+        int ans = 0;
+        for (int i = 0; i < diff.length; i++) {
+            if (diff[i] < 0)
+                continue;
+
+            int k = i;
+            boolean flag = false;
+            while (k < diff.length && diff[k] > 0) k++;
+            while (k < diff.length && diff[k] < 0) {
+                k++;
+                flag = true;
+            }
+            if (flag)
+                ans = Math.max(ans, k - i + 1);
+
+        }
+        return ans;
+     }
 
 }
 
