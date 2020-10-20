@@ -541,16 +541,95 @@ public class Medium {
                 k++;
                 flag = true;
             }
-            if (flag)
+            if (flag) {
                 ans = Math.max(ans, k - i + 1);
+                i = k;
+            }
 
         }
         return ans;
      }
 
+//    https://leetcode-cn.com/problems/n-queens-ii/
+    void dfs(int depth, int[] choice, int[] ans) {
+        if (depth == choice.length) {
+            ans[0]++;
+            return;
+        }
+
+        boolean found;
+        for (int i = 0; i < choice.length; i++) {
+            found = true;
+            for (int j = 0; j < depth; j++) {
+                if (!check(j, choice[j], depth, i)) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) {
+                choice[depth] = i;
+                dfs(depth+1, choice, ans);
+            }
+        }
+    }
+
+    boolean check(int x1, int y1, int x2, int y2) {
+        if(y1 == y2 || Math.abs(x1 - x2) == Math.abs(y1 - y2))
+            return false;
+        return true;
+    }
+
+    public int totalNQueens(int n) {
+        int[] ans = {0};
+        int[] choice = new int[n];
+        dfs(0, choice, ans);
+        return ans[0];
+    }
+
+//    https://leetcode-cn.com/problems/reorder-list/
+    public void reorderList(ListNode head) {
+        ListNode p = head;
+        int n = 0;
+        while (p != null) {
+            n++;
+            p = p.next;
+        }
+        if (n < 2) {
+            return;
+        }
+
+        ListNode q = head;
+        for (int i = (n >> 1); i > 0 ; i--) {
+            q = q.next;
+        }
+
+        ListNode dummy = new ListNode(-1);
+        ListNode pNext, qNext;
+
+        qNext = q.next;
+        q.next = null;
+        q = qNext;
+
+        while (q != null) {
+            qNext = q.next;
+            q.next = dummy.next;
+            dummy.next = q;
+            q = qNext;
+        }
+
+        p = head;
+        q = dummy.next;
+
+        while (q!=null) {
+            pNext = p.next;
+            qNext = q.next;
+            p.next = q;
+            q.next = pNext;
+            q = qNext;
+            p = pNext;
+        }
+    }
 }
-
-
 
 
 class Node {
