@@ -166,6 +166,36 @@ public class Easy {
         return a.equals(b);
     }
 
+//    https://leetcode-cn.com/problems/long-pressed-name/
+    public boolean isLongPressedName(String name, String typed) {
+        if (name.length() == 0)
+            return false;
+        boolean ans = true;
+        int i = 0, j = 0;
+        while (i < name.length() && j < typed.length()) {
+            if (name.charAt(i) == typed.charAt(j)) {
+                i++;
+                j++;
+            } else {
+                int tmp = j;
+                while(i> 0 && j< typed.length() && typed.charAt(j) == name.charAt(i-1)) j++;
+                if ( tmp == j) {
+                    ans = false;
+                    break;
+                }
+            }
+        }
+
+        if (i == name.length()) {
+            while (j < typed.length() && typed.charAt(j) == name.charAt(i-1)) j++;
+            if (j != typed.length())
+                ans = false;
+        } else {
+            ans = false;
+        }
+        return ans;
+    }
+
 
 }
 

@@ -33,5 +33,12 @@ public class EasyTest {
         System.out.println(ans);
     }
 
+    @Test
+    public void isLongPressedName() {
+        String a = "kikcxmvzi";
+        String b = "kiikcxxmmvvzz";
+        System.out.println(solution.isLongPressedName(a, b));
+
+    }
 
 }
