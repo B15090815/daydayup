@@ -2,6 +2,8 @@ package days;
 import common.ListNode;
 import org.junit.Test;
 
+import java.util.List;
+
 public class MediumTest {
     static Medium solution = new Medium();
 
@@ -81,5 +83,15 @@ public class MediumTest {
             System.out.print(p.val + "  ");
         }
         System.out.println();
+    }
+
+    @Test
+    public void partitionLabels() {
+        String s = "ababcbacadefegdehijhklij";
+        List<Integer> ans = solution.partitionLabels(s);
+        for (Integer a: ans
+             ) {
+            System.out.print(a + "  ");
+        }
     }
 }

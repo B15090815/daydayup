@@ -629,6 +629,34 @@ public class Medium {
             p = pNext;
         }
     }
+
+//    https://leetcode-cn.com/problems/partition-labels/
+    public List<Integer> partitionLabels(String S) {
+        List<Integer> ans = new ArrayList<>();
+        int[] hash = new int[26];
+        int i, j, k;
+        for (i = 0; i < S.length(); i++) {
+            int index = S.charAt(i) - 'a';
+            hash[index] = i + 1;
+
+        }
+
+         for(i = 0; i < S.length(); i++) {
+            int index = S.charAt(i) - 'a';
+            if (hash[index] > 0) {
+                j = hash[index];
+                for (k = i + 1; k < j; k++) {
+                    int p = S.charAt(k) - 'a';
+                    if (hash[p] > j)
+                        j = hash[p];
+                }
+                ans.add(j - i);
+                i = j - 1;
+            }
+        }
+
+        return ans;
+    }
 }
 
 
