@@ -657,6 +657,27 @@ public class Medium {
 
         return ans;
     }
+
+//    https://leetcode-cn.com/problems/minimum-path-sum/
+    public int minPathSum(int[][] grid) {
+        if (grid.length == 0 || grid[0].length == 0)
+            return 0;
+
+        int m = grid.length;
+        int n = grid[0].length;
+        int[] dp = new int[n];
+        for (int i = 0; i < dp.length; i++) {
+            dp[i] = Integer.MAX_VALUE;
+        }
+        dp[0] = 0;
+        for (int i = 0; i < m; i++) {
+            dp[0] = grid[i][0] + dp[0];
+            for (int j = 1; j < n; j++) {
+                dp[j] = Math.min(dp[j], dp[j-1]) + grid[i][j];
+            }
+        }
+        return dp[dp.length - 1];
+    }
 }
 
 
