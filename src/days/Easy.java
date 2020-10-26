@@ -1,6 +1,8 @@
 package days;
 
 
+import common.ListNode;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -196,6 +198,88 @@ public class Easy {
         return ans;
     }
 
+    public int longestMountain(int[] A) {
+        if (A.length < 3)
+            return 0;
+
+        int i = 0;
+        int ans = 0;
+        int right, left;
+        while (i < A.length) {
+            while (i < A.length - 1 && A[i] >= A[i+1]) i++;
+            left = i;
+            while (left < A.length-1 && A[left] < A[left+1]) left++;
+
+            right = left + 1;
+            while (right < A.length && A[right] < A[right-1]) right++;
+            if (left + 1 < right) {
+                int L = right - i;
+                ans = Math.max(ans, L);
+
+            }
+            i = right - 1;
+        }
+        return ans;
+    }
+
+//    https://leetcode-cn.com/problems/merge-k-sorted-lists/
+    ListNode mergeTwo(ListNode h1, ListNode h2) {
+        ListNode dummy = new ListNode(-1);
+        ListNode p1 = h1;
+        ListNode p2 = h2;
+        ListNode p = dummy;
+        while (p1 != null && p2 != null) {
+            if (p1.val < p2.val) {
+                p.next = p1;
+                p1 = p1.next;
+            } else {
+                p.next = p2;
+                p2 = p2.next;
+            }
+            p = p.next;
+        }
+
+        while (p1 != null) {
+            p.next = p1;
+            p1 = p1.next;
+            p = p.next;
+        }
+
+        while (p2 != null) {
+            p.next = p2;
+            p2 = p2.next;
+            p = p.next;
+        }
+        p.next = null;
+        return dummy.next;
+    }
+
+
+    public ListNode mergeKLists(ListNode[] lists) {
+        int n = lists.length;
+        if (n==0)
+            return null;
+
+        int k;
+        int i;
+        while (n > 1) {
+            i = 0;
+            k = 0;
+            while (k < n) {
+                if (k+1 < n) {
+                    ListNode tmp = mergeTwo(lists[k], lists[k+1]);
+                    lists[i] = tmp;
+                    k = k+2;
+                } else {
+                    lists[i] = lists[k];
+                    k++;
+                }
+                i++;
+            }
+            n = i;
+        }
+        return lists[0];
+    }
 
 }
 

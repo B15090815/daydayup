@@ -41,4 +41,11 @@ public class EasyTest {
 
     }
 
+    @Test
+    public void longestMountain() {
+        int[] nums = {875,884,239,731,723,685};
+        int ans = solution.longestMountain(nums);
+        System.out.println(ans);
+    }
+
 }
