@@ -94,4 +94,26 @@ public class MediumTest {
             System.out.print(a + "  ");
         }
     }
+
+
+    @Test
+    public void videoStitching() {
+        int[][] nums = {{0,1},{6,8},{0,2},{5,6},{0,4},{0,3},{6,7},{1,3},{4,7},{1,4},{2,5},{2,6},{3,4},{4,5},{5,7},{6,9}};
+        System.out.println(solution.videoStitching(nums, 9));
+    }
+
+    @Test
+    public void numSquares() {
+        System.out.println(solution.numSquares(17));
+    }
+
+    @Test
+    public void topKFrequent() {
+        int[] nums = {1,1,1,2,2,3};
+        int k = 2;
+        int[] ans = solution.topKFrequent(nums, k);
+        for (int i = 0; i < ans.length; i++) {
+            System.out.println(ans[i]);
+        }
+    }
 }

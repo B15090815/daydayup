@@ -1,11 +1,7 @@
 package days;
 import common.ListNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Medium {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
@@ -678,6 +674,154 @@ public class Medium {
         }
         return dp[dp.length - 1];
     }
+
+//    https://leetcode-cn.com/problems/video-stitching/
+    public int videoStitching(int[][] clips, int T) {
+        int[] dp = new int[T + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE - 1);
+        dp[0] = 0;
+        for (int i = 1; i <= T; i++) {
+            for (int[] clip :
+                    clips) {
+                if (clip[0] <= i && i <= clip[1]) {
+                    dp[i] = Math.min(dp[i], dp[clip[0]] + 1);
+                }
+            }
+        }
+        return dp[T] == Integer.MAX_VALUE - 1 ? -1 : dp[T];
+    }
+
+//    https://leetcode-cn.com/problems/binary-tree-preorder-traversal/
+    public List<Integer> preorderTraversal(TreeNode root) {
+        Deque<TreeNode> stack = new LinkedList<>();
+//        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> ans = new ArrayList<>();
+        if (root != null) {
+            stack.push(root);
+        }
+        TreeNode tmp;
+        while (!stack.isEmpty()) {
+            tmp = stack.pop();
+            ans.add(tmp.val);
+
+            if (tmp.right != null)
+                stack.push(tmp.right);
+
+            if (tmp.left != null) {
+                stack.push(tmp.left);
+            }
+        }
+        return ans;
+    }
+
+//    https://leetcode-cn.com/problems/binary-tree-inorder-traversal/
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        Deque<TreeNode> stack = new LinkedList<>();
+
+        TreeNode cur;
+        cur = root;
+        while (cur != null || !stack.isEmpty()) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            cur = stack.pop();
+            ans.add(cur.val);
+            cur = cur.right;
+        }
+        return ans;
+    }
+
+//    https://leetcode-cn.com/problems/perfect-squares/
+    public int numSquares(int n) {
+        int k = (int) Math.sqrt(n);
+        int[] nums = new int[k+1];
+        int[] dp = new int[n+1];
+
+        for (int i = 0; i <=k; i++) {
+            nums[i] = i * i;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            dp[i] = Integer.MAX_VALUE - 1;
+            for (int j = 1; j < nums.length && nums[j] <= i; j++) {
+                int x = dp[i - nums[j]] + 1;
+                dp[i] = dp[i] < x ? dp[i] : x;
+            }
+        }
+
+        return dp[n];
+    }
+
+//    https://leetcode-cn.com/problems/top-k-frequent-elements/
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> mp = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int t = 1;
+            if ( mp.containsKey(nums[i]) ) {
+                t += mp.get(nums[i]);
+            }
+            mp.put(nums[i], t);
+        }
+
+        PriorityQueue<Map.Entry<Integer, Integer>> que = new PriorityQueue<>(new Comparator<Map.Entry<Integer, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return o2.getValue() - o1.getValue();
+            }
+        });
+
+        for(Map.Entry<Integer, Integer> entry : mp.entrySet()) {
+            que.add(entry);
+        }
+
+        Map.Entry<Integer, Integer> tmp;
+        int[] ans = new int[k];
+        for (int i = 0; i < k; i++) {
+            tmp = que.poll();
+            ans[i] = tmp.getKey();
+        }
+        return ans;
+    }
+
+    public int[] topKFrequent2(int[] nums, int k) {
+        Map<Integer, Integer> mp = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int t = 1;
+            if ( mp.containsKey(nums[i]) ) {
+                t += mp.get(nums[i]);
+            }
+            mp.put(nums[i], t);
+        }
+
+        PriorityQueue<Map.Entry<Integer, Integer>> que = new PriorityQueue<>(new Comparator<Map.Entry<Integer, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return o1.getValue() - o2.getValue();
+            }
+        });
+
+        for (Map.Entry<Integer, Integer> entry: mp.entrySet()) {
+            if (que.size() < k) {
+                que.add(entry);
+            } else {
+                if (entry.getValue() > que.peek().getValue()) {
+                    que.poll();
+                    que.add(entry);
+                }
+            }
+        }
+
+        int[] ans = new int[k];
+        Map.Entry<Integer, Integer> tmp;
+        for (int i = 0; i < k; i++) {
+            tmp = que.poll();
+            ans[i] = tmp.getKey();
+        }
+        return ans;
+    }
+
 }
 
 
