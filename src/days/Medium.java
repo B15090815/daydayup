@@ -822,6 +822,73 @@ public class Medium {
         return ans;
     }
 
+//    https://leetcode-cn.com/problems/search-a-2d-matrix-ii/
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix.length == 0 || matrix[0].length ==0)
+            return false;
+
+        int row = 0;
+        int col = matrix[0].length - 1;
+        while (col >= 0 && row < matrix.length) {
+            if (target == matrix[row][col])
+                return true;
+            else if (target < matrix[row][col]) {
+                col--;
+            } else {
+                row++;
+            }
+        }
+        return false;
+    }
+
+//    https://leetcode-cn.com/problems/longest-valid-parentheses/
+    public int longestValidParentheses(String s) {
+        int left = 0;
+        int count = 0;
+        int ans = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == ')' && left == 0)
+                continue;
+
+            if (ch == '(')
+                left++;
+            else {
+                if (left > 0) {
+                    left--;
+                    count++;
+                }
+                if (left == 0) {
+                    ans = Math.max(ans, count);
+                    count = 0;
+                }
+            }
+        }
+        ans = ans == 0 ? count : ans;
+        return ans * 2;
+    }
+
+//    https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/
+    void dfs(TreeNode root, int pre, int[] ans) {
+        if (root == null)
+            return;
+        if (root.left == null && root.right == null) {
+            ans[0] += 10 * pre + root.val;
+            return;
+        }
+        pre = pre * 10 + root.val;
+        dfs(root.left, pre, ans);
+        dfs(root.right, pre, ans);
+
+    }
+
+    public int sumNumbers(TreeNode root) {
+        int[] ans = {0};
+        dfs(root, 0, ans);
+        return ans[0];
+    }
+
+
 }
 
 

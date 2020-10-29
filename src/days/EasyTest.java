@@ -48,4 +48,11 @@ public class EasyTest {
         System.out.println(ans);
     }
 
+    @Test
+    public void uniqueOccurrences() {
+        int[] nums = {1,2,2,1,1,3};
+        boolean ans = solution.uniqueOccurrences(nums);
+        System.out.println(ans);
+    }
+
 }

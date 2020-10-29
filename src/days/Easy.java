@@ -3,8 +3,8 @@ package days;
 
 import common.ListNode;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.net.Inet4Address;
+import java.util.*;
 
 class TreeNode {
     int val;
@@ -279,6 +279,28 @@ public class Easy {
             n = i;
         }
         return lists[0];
+    }
+
+//    https://leetcode-cn.com/problems/unique-number-of-occurrences/
+    public boolean uniqueOccurrences(int[] arr) {
+        Map<Integer, Integer> mp = new HashMap();
+        Integer val;
+        for (int k : arr) {
+            val = mp.get(k);
+            if (val == null)
+                val = 0;
+            val++;
+            mp.put(k, val);
+        }
+        Set<Integer> count = new HashSet<>();
+        for (Map.Entry<Integer, Integer> tmp: mp.entrySet()) {
+            if (count.contains(tmp.getValue()))
+                return false;
+            else
+                count.add(tmp.getValue());
+        }
+
+        return true;
     }
 
 }

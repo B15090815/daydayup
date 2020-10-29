@@ -116,4 +116,9 @@ public class MediumTest {
             System.out.println(ans[i]);
         }
     }
+    @Test public void longestValidParentheses() {
+        String s = ")()())";
+        int ans = solution.longestValidParentheses(s);
+        System.out.println(ans);
+    }
 }
