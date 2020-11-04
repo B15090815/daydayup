@@ -950,6 +950,218 @@ public class Medium {
         return -1;
     }
 
+
+    public int low_bound(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        int mid;
+        while (low < high) {
+            mid = (low + high) / 2;
+            if (nums[mid] == target) {
+                high = mid;
+            } else if (nums[mid] < target){
+                low = mid + 1;
+            } else {
+                high = mid -1;
+            }
+        }
+        if (low == 0 && nums[0] > target) {
+            return -1;
+        }
+        return low;
+    }
+
+
+    public int up_bound(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        int mid;
+        while (low <= high) {
+            mid = (low + high) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] > target) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+
+
+
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        int start = newInterval[0];
+        int end = newInterval[1];
+        int in_k = -1, out_k = intervals.length;
+        int in_p = -1, out_p = intervals.length;
+
+
+        for (int i = 0; i < intervals.length; i++) {
+            if (in_k == -1 && intervals[i][0] <= start && start <=intervals[i][1]) {
+                in_k = i;
+            }
+
+            if (in_p == -1 && intervals[i][0] <= end && end <=intervals[i][1]) {
+                in_p = i;
+            }
+            if (out_k == intervals.length && start < intervals[i][0]) {
+                out_k = i;
+            }
+
+            if (out_p == intervals.length && end < intervals[i][0]) {
+                out_p = i;
+            }
+        }
+
+        if ( in_k == -1 && out_k == intervals.length) {
+            int m = intervals.length;
+            int[][] ans = new int[m+1][2];
+            for (int i = 0; i < intervals.length; i++) {
+                ans[i][0] = intervals[i][0];
+                ans[i][1] = intervals[i][1];
+            }
+
+            ans[intervals.length][0] = newInterval[0];
+            ans[intervals.length][1] = newInterval[1];
+            return ans;
+        }
+
+        if (in_k != -1 ) {
+            if (in_p != -1) {
+                int m = intervals.length - in_p + in_k;
+                int[][] ans = new int[m][2];
+                int x = 0;
+                for (int i = 0; i < intervals.length; i++) {
+                    if (i < in_k || i > in_p) {
+                        ans[x][0] = intervals[i][0];
+                        ans[x][1] = intervals[i][1];
+                        x++;
+                        continue;
+                    }
+
+                    if (i == in_k) {
+                        ans[x][0] = intervals[in_k][0];
+                        ans[x][1] = intervals[in_p][1];
+                        x++;
+                    }
+                }
+                return ans;
+            }
+
+            if (out_p == intervals.length) {
+                int m = in_k + 1;
+                int[][] ans = new int[m][2];
+                for (int i = 0; i < in_k; i++) {
+                    ans[i][0] = intervals[i][0];
+                    ans[i][1] = intervals[i][1];
+                }
+                ans[in_k][0] = intervals[in_k][0];
+                ans[in_k][1] = newInterval[1];
+                return ans;
+            }
+
+            // out_p != -1
+            int m = intervals.length + in_k - out_p + 1;
+            int[][] ans = new int[m][2];
+            int x = 0;
+            for (int i = 0; i < intervals.length; i++) {
+                if (i < in_k || i >= out_p) {
+                    ans[x][0] = intervals[i][0];
+                    ans[x][1] = intervals[i][1];
+                    x++;
+                    continue;
+                }
+
+                if (i == in_k) {
+                    ans[x][0] = intervals[i][0];
+                    ans[x][1] = newInterval[1];
+                    x++;
+                }
+            }
+
+            return ans;
+
+        }
+
+        // in_k == -1 out_k != intervals.length
+        if (in_p != -1) {
+            int m = intervals.length - (in_p - out_k );
+            int[][] ans = new int [m][2];
+            int x = 0;
+            for (int i = 0; i < intervals.length; i++) {
+                if (i < out_k || i > in_p) {
+                    ans[x][0] = intervals[i][0];
+                    ans[x][1] = intervals[i][1];
+                    x++;
+                    continue;
+                }
+
+                if (i == out_k) {
+                    ans[x][0] = newInterval[0];
+                    ans[x][1] = intervals[in_p][1];
+                    x++;
+                }
+            }
+            return ans;
+        }
+
+        if (out_p == intervals.length) {
+            int m = out_k + 1;
+            int[][] ans = new int[m][2];
+            for (int i = 0; i < out_k; i++) {
+                ans[i][0] = intervals[i][0];
+                ans[i][1] = intervals[i][1];
+            }
+            ans[out_k][0] = newInterval[0];
+            ans[out_k][1] = newInterval[1];
+            return ans;
+        }
+
+        if (out_k == out_p) {
+            int m = intervals.length;
+            int[][] ans = new int[m+1][2];
+            int x = 0;
+            for (int i = 0; i < out_k; i++) {
+                ans[x][0] = intervals[i][0];
+                ans[x][1] = intervals[i][1];
+                x++;
+            }
+            ans[x][0] = newInterval[0];
+            ans[x][1] = newInterval[1];
+            x++;
+
+            for (int i = out_k; i < m; i++) {
+                ans[x][0] = intervals[i][0];
+                ans[x][1] = intervals[i][1];
+                x++;
+            }
+            return ans;
+        }
+
+        int m = intervals.length + out_k - out_p + 1;
+        int[][] ans = new int [m][2];
+        int x = 0;
+        for (int i = 0; i < intervals.length; i++) {
+            if (i < out_k || i >= out_p) {
+                ans[x][0] = intervals[i][0];
+                ans[x][1] = intervals[i][1];
+                x++;
+                continue;
+            }
+
+            if (i == out_k) {
+                ans[x][0] = newInterval[0];
+                ans[x][1] = newInterval[1];
+                x++;
+            }
+        }
+        return ans;
+    }
+
+
 }
 
 class AddrInfo {

@@ -121,4 +121,23 @@ public class MediumTest {
         int ans = solution.longestValidParentheses(s);
         System.out.println(ans);
     }
+
+    @Test
+    public void search() {
+        int[] nums = {1,3,5,7,9,11,13,15,16};
+        System.out.println(solution.low_bound(nums, 4));
+    }
+
+    @Test
+    public void insert() {
+//        int[][] nums = {{1,2},{3,5},{6,7},{8,10},{12,16},{20, 25},{30,48}};
+//        int[] a = {50,50};
+        int[][] nums = {{1,3},{6,9}};
+        int[] a = {0,0};
+        int[][] ans = solution.insert(nums, a);
+        for (int[] e :
+                ans) {
+            System.out.println(e[0] + "  " + e[1]);
+        }
+    }
 }
