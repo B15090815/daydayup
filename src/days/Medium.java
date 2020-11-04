@@ -888,7 +888,79 @@ public class Medium {
         return ans[0];
     }
 
+//    https://leetcode-cn.com/problems/reconstruct-itinerary/
+    public List<String> findItinerary(List<List<String>> tickets) {
+        Set<String> addr = new TreeSet<>();
 
+        for (List<String> item: tickets
+             ) {
+            addr.addAll(item);
+        }
+
+        Iterator<String> iter = addr.iterator();
+        Map<String, Integer> code = new HashMap<>();
+        Map<Integer, String> code2addr = new HashMap<>();
+
+        int index = 0;
+        while (iter.hasNext()) {
+            String tmp = iter.next();
+            code.put(tmp, index);
+            code2addr.put(index, tmp);
+            index++;
+        }
+
+        int[] map = new int[index];
+        int departure = code.get("JFK");
+        for (List<String> item: tickets
+        ) {
+
+//            int s = code.get(item.get(0));
+//            int e = code.get(item.get(1));
+//            if (e == departure || map[s] != 0)
+//                continue;
+//
+//            map[s] = e;
+        }
+        List<String> ans = new ArrayList<>();
+
+        ans.add("JFK");
+        while (ans.size() < addr.size()) {
+            departure = map[departure];
+            ans.add(code2addr.get(departure));
+        }
+        return ans;
+    }
+
+
+//    https://leetcode-cn.com/problems/binary-search/
+    public int search(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        int mid;
+        while (low <= high) {
+            mid = (low + high) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] > target) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+}
+
+class AddrInfo {
+    String name;
+    int code;
+    int next;
+    AddrInfo(String name, int code, int next) {
+        this.name = name;
+        this.code = code;
+        this.next = next;
+    }
 }
 
 
