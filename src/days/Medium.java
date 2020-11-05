@@ -1161,6 +1161,73 @@ public class Medium {
         return ans;
     }
 
+//    https://leetcode-cn.com/problems/word-ladder/
+    int diffCount(String a, String b) {
+        int count = 0;
+        for (int i = 0; i < a.length(); i++) {
+            if (a.charAt(i) != b.charAt(i))
+                count++;
+        }
+        return count;
+    }
+
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        int m = wordList.size() + 1;
+        boolean[][] diff = new boolean[m][m];
+        int end = -1;
+        for (int i = 0; i < m - 1; i++) {
+            for (int j = i + 1; j < m - 1; j++) {
+                if (diffCount(wordList.get(i), wordList.get(j)) == 1) {
+                    diff[i][j] = true;
+                    diff[j][i] = true;
+                }
+            }
+
+            if (diffCount(wordList.get(i), beginWord) == 1) {
+                diff[i][m-1] = true;
+                diff[m-1][i] = true;
+            }
+
+            if (wordList.get(i).equals(endWord))
+                end = i;
+        }
+
+        if (end == -1)
+            return 0;
+
+
+
+        int[] dp = new int[m];
+        boolean[] visited = new boolean[m];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[m-1] = 0;
+
+        int cur;
+        int k = 0;
+        for (int i = 0; i < m-1; i++) {
+            cur = Integer.MAX_VALUE;
+            k = -1;
+            for (int j = 0; j < m; j++) {
+                if (!visited[j] && cur > dp[j]) {
+                    k = j;
+                    cur = dp[j];
+                }
+            }
+            if (k == -1)
+                break;
+
+            visited[k] = true;
+
+            for (int j = 0; j < m; j++) {
+                if (!visited[j] && diff[k][j]) {
+                    dp[j] = Math.min(dp[j], dp[k] + 1);
+                }
+            }
+        }
+
+        return dp[end] == Integer.MAX_VALUE ? 0 : dp[end] + 1;
+    }
+
 
 }
 

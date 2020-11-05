@@ -2,6 +2,8 @@ package days;
 import common.ListNode;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MediumTest {
@@ -139,5 +141,17 @@ public class MediumTest {
                 ans) {
             System.out.println(e[0] + "  " + e[1]);
         }
+    }
+
+    @Test
+    public void ladderLength () {
+        String beginWord = "hit";
+        String endWord = "cog";
+//        String[] words = {"hot","dot","dog","lot","log","cog"};
+        String[] words = {"hot","dot","dog","lot","log"};
+        List<String> listWords = new ArrayList<>(Arrays.asList(words));
+
+        int ans = solution.ladderLength(beginWord, endWord, listWords);
+        System.out.println(ans);
     }
 }
