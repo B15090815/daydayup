@@ -85,4 +85,44 @@ public class Medium {
         Arrays.sort(result);
         return result;
     }
+
+//    https://leetcode-cn.com/problems/decode-string/
+
+        int index;
+        boolean isNum(char ch) {
+            return '0'<= ch && ch <='9';
+        }
+
+        String dfs(StringBuilder s) {
+            StringBuilder sb = new StringBuilder();
+            char ch;
+            int dup = 0;
+            for (; index < s.length(); index++) {
+                ch = s.charAt(index);
+                if (ch == '[') {
+                    index++;
+                String tmp = dfs(s);
+                for (int i = 0; i < dup; i++) {
+                    sb.append(tmp);
+                }
+                dup = 0;
+            } else if (ch == ']') {
+                return sb.toString();
+            } else if (isNum(ch)) {
+                dup = dup * 10 + ch - '0';
+            } else {
+                sb.append(ch);
+            }
+
+        }
+        return sb.toString();
+    }
+    public String decodeString(String s) {
+        this.index = 0;
+        StringBuilder str = new StringBuilder(s);
+        return dfs(str);
+    }
+
+
 }
+

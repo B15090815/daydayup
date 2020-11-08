@@ -13,4 +13,11 @@ public class DFSTest {
             System.out.println(ans[i]);
         }
     }
+
+    @Test
+    public void decodeString() {
+        String s = "3[a2[c]]";
+        String ans = solution.decodeString(s);
+        System.out.println(ans);
+    }
 }
