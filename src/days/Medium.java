@@ -1228,7 +1228,45 @@ public class Medium {
         return dp[end] == Integer.MAX_VALUE ? 0 : dp[end] + 1;
     }
 
+//    https://leetcode-cn.com/problems/k-closest-points-to-origin/
+    public int[][] kClosest(int[][] points, int K) {
+        PriorityQueue<Point> que = new PriorityQueue<>(points.length);
 
+        for (int[] point : points) {
+            que.add(new Point(point[0], point[1]));
+        }
+
+        int[][] ans = new int[K][2];
+        Point tmp;
+        for (int i = 0; i < K; i++) {
+            tmp = que.poll();
+            ans[i][0] = tmp.x;
+            ans[i][1] = tmp.y;
+        }
+        return ans;
+    }
+
+}
+
+class Point implements Comparable<Point>{
+    int x;
+    int y;
+    int distance;
+
+    Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.distance = x * x + y * y;
+    }
+
+    @Override
+    public int compareTo(Point point) {
+        if (this.distance != point.distance)
+            return this.distance - point.distance;
+        if (this.x != point.x)
+            return this.x - point.x;
+        return this.y - point.y;
+    }
 }
 
 class AddrInfo {

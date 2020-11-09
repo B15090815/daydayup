@@ -154,4 +154,15 @@ public class MediumTest {
         int ans = solution.ladderLength(beginWord, endWord, listWords);
         System.out.println(ans);
     }
+
+    @Test
+    public void kClosest() {
+        int[][] points = {{0,1},{1,0}};
+        int k = 2;
+        int[][] ans = solution.kClosest(points, k);
+        for (int[] a :
+                ans) {
+            System.out.println(a[0] + " " + a[1]);
+        }
+    }
 }

@@ -123,6 +123,95 @@ public class Medium {
         return dfs(str);
     }
 
+//    https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/
+    int global_length;
+    boolean isValid(int i, int j, int m, int n) {
+        return i >= 0 && j >= 0 && i < m && j < n;
+    }
+
+    void dfs(int i, int j, int len, boolean[][] visited, int[][] matrix, int direction) {
+        this.global_length = Math.max(this.global_length, len);
+        int[] dx = {-1, 1, 0, 0};
+        int[] dy = {0, 0, -1, 1};
+        int x, y;
+        int m = matrix.length;
+        int n = matrix[0].length;
+        for (int k = 0; k < 4; k++) {
+            x = i + dx[k];
+            y = j + dy[k];
+            if (isValid(x, y, m, n) && !visited[x][y]) {
+                if (direction == 0) {
+                    if (matrix[x][y] > matrix[i][j]) {
+                        visited[x][y] = true;
+                        dfs(x, y, len + 1, visited, matrix, direction);
+                        visited[x][y] = false;
+                    }
+                } else {
+                    if (matrix[x][y] < matrix[i][j]) {
+                        visited[x][y] = true;
+                        dfs(x, y, len + 1, visited, matrix, direction);
+                        visited[x][y] = false;
+                    }
+                }
+            }
+        }
+    }
+    public int longestIncreasingPath_(int[][] matrix) {
+        if (matrix.length == 0 || matrix[0].length == 0)
+            return 0;
+
+        int m = matrix.length;
+        int n = matrix[0].length;
+        boolean[][] visited = new boolean[m][n];
+        this.global_length = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dfs(i, j, 1, visited, matrix, 0);
+            }
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                dfs(i, j, 1, visited, matrix, 1);
+            }
+        }
+        return this.global_length;
+    }
+
+
+    public int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    public int rows, columns;
+
+    public int longestIncreasingPath(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return 0;
+        }
+        rows = matrix.length;
+        columns = matrix[0].length;
+        int[][] memo = new int[rows][columns];
+        int ans = 0;
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < columns; ++j) {
+                ans = Math.max(ans, dfs(matrix, i, j, memo));
+            }
+        }
+        return ans;
+    }
+
+    public int dfs(int[][] matrix, int row, int column, int[][] memo) {
+        if (memo[row][column] != 0) {
+            return memo[row][column];
+        }
+        ++memo[row][column];
+        for (int[] dir : dirs) {
+            int newRow = row + dir[0], newColumn = column + dir[1];
+            if (newRow >= 0 && newRow < rows && newColumn >= 0 && newColumn < columns && matrix[newRow][newColumn] > matrix[row][column]) {
+                memo[row][column] = Math.max(memo[row][column], dfs(matrix, newRow, newColumn, memo) + 1);
+            }
+        }
+        return memo[row][column];
+    }
+
 
 }
 
