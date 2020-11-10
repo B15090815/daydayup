@@ -1228,6 +1228,24 @@ public class Medium {
         return dp[end] == Integer.MAX_VALUE ? 0 : dp[end] + 1;
     }
 
+//    https://leetcode-cn.com/problems/next-permutation/
+
+    public void nextPermutation(int[] nums) {
+        int e = nums.length - 1;
+        while (e > 0 && nums[e] <= nums[e-1]) e--;
+        int i  = 0, j =  nums.length - 1;
+        if (e > 0) {
+            int k = e;
+            while ( k < nums.length && nums[e - 1] < nums[k]) k++;
+            swap(e-1, k-1, nums);
+            i = e;
+        }
+        while (i < j) {
+            swap(i, j, nums);
+            i++;
+            j--;
+        }
+    }
 //    https://leetcode-cn.com/problems/k-closest-points-to-origin/
     public int[][] kClosest(int[][] points, int K) {
         PriorityQueue<Point> que = new PriorityQueue<>(points.length);

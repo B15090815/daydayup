@@ -156,6 +156,16 @@ public class MediumTest {
     }
 
     @Test
+    public void nextPermutation() {
+        int[] nums = {5,1,1};
+        solution.nextPermutation(nums);
+        for (int a :
+                nums) {
+            System.out.println(a);
+        }
+    }
+
+    @Test
     public void kClosest() {
         int[][] points = {{0,1},{1,0}};
         int k = 2;
