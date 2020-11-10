@@ -1,8 +1,6 @@
 package classic;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 public class Medium {
 //    https://leetcode-cn.com/problems/one-away-lcci/
@@ -120,5 +118,36 @@ class MedianFinder {
             ans = (double) maxQue.peek();
         }
         return ans;
+    }
+}
+
+
+class ShuffleArr {
+    int[] original;
+
+    public ShuffleArr(int[] nums) {
+        this.original = Arrays.copyOf(nums, nums.length);
+    }
+
+    /** Resets the array to its original configuration and return it. */
+    public int[] reset() {
+        return this.original;
+    }
+
+    void swap(int i, int j, int[] nums) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+    /** Returns a random shuffling of the array. */
+    public int[] shuffle() {
+        int m = this.original.length;
+        int[] shuffled = Arrays.copyOf(this.original, m);
+        int index = 0;
+        for (int i = 0; i < m; i++) {
+            index = (int)(Math.random() * (m - i));
+            swap(i, index + i, shuffled);
+        }
+        return shuffled;
     }
 }
