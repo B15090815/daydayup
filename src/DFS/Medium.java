@@ -1,8 +1,6 @@
 package DFS;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 class TreeNode {
      int val;
@@ -213,5 +211,46 @@ public class Medium {
     }
 
 
+    public int leastInterval1(char[] tasks, int n) {
+        int[] hash = new int[26];
+        for (char ch: tasks) {
+            int index = (int)(ch - 'A');
+            hash[index]++;
+        }
+        Arrays.sort(hash);
+        int ans = 0;
+        while (hash[25] > 0) {
+            int i = 0;
+            while (i<=n) {
+                if(i<26 && hash[25-i] > 0) {
+                    hash[25-i]--;
+             }
+                ans++;
+                if (hash[25] == 0)
+                    break;
+                i++;
+            }
+
+            Arrays.sort(hash);
+        }
+
+        return ans;
+    }
+
+    public int leastInterval(char[] tasks, int n) {
+        int[] map = new int[26];
+        for (char c: tasks) {
+            map[c - 'A']++;
+        }
+        Arrays.sort(map);
+        int idleSlot = (map[25] - 1) * n;
+        for (int i = 24; i >=0 && map[i] > 0; i--) {
+            idleSlot -= Math.min(map[i], map[25]-1);
+        }
+        return idleSlot > 0 ?  idleSlot + tasks.length : tasks.length;
+    }
+
 }
+
+
 

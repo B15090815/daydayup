@@ -303,5 +303,75 @@ public class Easy {
         return true;
     }
 
+//    https://leetcode-cn.com/problems/sort-integers-by-the-number-of-1-bits/
+    int countBit(int n) {
+        int count = 0;
+        while (n != 0 ) {
+            n = n & (n-1);
+            count++;
+        }
+        return count;
+    }
+    public int[] sortByBits(int[] arr) {
+        BNode[] nums = new BNode[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            nums[i] = new BNode(countBit(arr[i]), arr[i]);
+        }
+        Arrays.sort(nums, new Comparator<BNode>() {
+            @Override
+            public int compare(BNode o1, BNode o2) {
+                if (o1.k != o2.k)
+                    return o1.k - o2.k;
+                return o1.v - o2.v;
+            }
+        });
+        int[] ans = new int[arr.length];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = nums[i].v;
+        }
+        return ans;
+    }
+//    https://leetcode-cn.com/problems/maximum-difference-between-node-and-ancestor/
+    int[] dfs(TreeNode root, int[] ans) {
+        if (root == null) {
+            return new int[]{-1, Integer.MAX_VALUE};
+        }
+
+        int[] left = dfs(root.left, ans);
+        int[] right = dfs(root.right, ans);
+        int maxV = Math.max(left[0], right[0]);
+        int minV = Math.min(left[1], right[1]);
+        int diff;
+        if (maxV > -1) {
+            diff = Math.abs(root.val - maxV);
+            ans[0] = Math.max(ans[0], diff);
+        }
+
+        if (minV < Integer.MAX_VALUE) {
+            diff = Math.abs(root.val - minV);
+            ans[0] = Math.max(ans[0], diff);
+        }
+
+        minV = Math.min(minV, root.val);
+        maxV = Math.max(maxV, root.val);
+        return new int[] {maxV, minV};
+    }
+
+
+    public int maxAncestorDiff(TreeNode root) {
+        int[] ans = {-1};
+        dfs(root, ans);
+        return ans[0];
+    }
+
 }
 
+class BNode {
+    int k;
+    int v;
+
+    public BNode(int k, int v) {
+        this.k = k;
+        this.v = v;
+    }
+}
