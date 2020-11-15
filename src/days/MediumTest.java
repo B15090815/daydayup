@@ -175,4 +175,12 @@ public class MediumTest {
             System.out.println(a[0] + " " + a[1]);
         }
     }
+
+    @Test
+    public void removeKdigits () {
+        String str = "10";
+        String ans = solution.removeKdigits(str, 2);
+        System.out.println(ans);
+
+    }
 }

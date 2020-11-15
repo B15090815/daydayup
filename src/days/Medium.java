@@ -1264,6 +1264,42 @@ public class Medium {
         return ans;
     }
 
+//    https://leetcode-cn.com/problems/remove-k-digits/
+    int removeOne(char[] digits, int n) {
+        int i;
+        for (i = 0; i < n - 1; i++) {
+            if (digits[i] > digits[i+1]) {
+                break;
+            }
+        }
+        int k = i + 1;;
+        if (i == 0) {
+            while (k < n && digits[k] == '0') k++;
+        }
+
+        int zeros = k - (i + 1);
+        n = n-1-zeros;
+        for (int j = i; j < n; j++) {
+            digits[j] = digits[j+1+zeros];
+        }
+        return n;
+    }
+
+    public String removeKdigits(String num, int k) {
+        char[] digits = num.toCharArray();
+        int n = digits.length;
+        while (k > 0) {
+            n = removeOne(digits, n);
+            if (n == 0)
+                break;
+            k--;
+        }
+        if (n == 0)
+            return "0";
+        char[] ans = Arrays.copyOf(digits, n);
+        return new String(ans);
+    }
+
 }
 
 class Point implements Comparable<Point>{
