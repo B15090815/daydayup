@@ -1300,6 +1300,110 @@ public class Medium {
         return new String(ans);
     }
 
+
+
+
+    int[] circleCheck(int cur, char ch, String ring) {
+        int m = ring.length();
+        int left = (cur - 1) % m;
+        int right = (cur + 1) % m;
+        while (right != cur && ring.charAt(right) != ch) right = (right + 1) % m;
+        while (left != cur && ring.charAt(left) != ch) left = (left - 1) % m;
+        return new int[]{left, right};
+    }
+
+    public int findRotateSteps(String ring, String key) {
+        int m = key.length();
+        int[] dp = new int[m];
+        int left_start = 0, right_start = 0;
+        int distance_left, distance_right;
+        char ch;
+        int[] direction;
+        int[] direction2;
+        for (int i = 0; i < m; i++) {
+            ch = key.charAt(i);
+            direction = circleCheck(left_start, ch, ring);
+            direction2 = circleCheck(right_start, ch, ring);
+
+            left_start = direction[0];
+            right_start = direction[1];
+
+
+        }
+        return 0;
+    }
+
+//    https://leetcode-cn.com/problems/queue-reconstruction-by-height/
+    public int[][] reconstructQueue(int[][] people) {
+        Arrays.sort(people, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] != o2[0])
+                    return o2[0] - o1[0];
+
+                return o1[1] - o2[1];
+            }
+        });
+        int m = people.length;
+        List<int[]> ans = new ArrayList<>(m);
+        for(int[] p: people) {
+            ans.add(p[1], p);
+        }
+        return ans.toArray(new int[m][2]);
+    }
+
+//    https://leetcode-cn.com/problems/flip-equivalent-binary-trees/
+    public boolean flipEquiv(TreeNode root1, TreeNode root2) {
+        if (root1 == null && root2 == null)
+            return true;
+        if (root1 != null && root2 != null) {
+            if (root1.val == root2.val) {
+                boolean left, right;
+                left = flipEquiv(root1.left, root2.left);
+                right = flipEquiv(root1.right, root2.right);
+                if (left && right)
+                    return true;
+                left = flipEquiv(root1.left, root2.right);
+                right = flipEquiv(root1.right, root2.left);
+                return left && right;
+            }
+        }
+
+        return false;
+    }
+
+//    https://leetcode-cn.com/problems/increasing-subsequences/
+    List<List<Integer>> ans_491;
+    void DFS(int depth, int k, int last, int[] nums, int[] tmp) {
+        if (depth == nums.length) {
+            if (k>=2) {
+                List<Integer> a = new ArrayList<>();
+                for (int i = 1; i <= k; i++) {
+                    a.add(tmp[i]);
+                }
+                ans_491.add(a);
+            }
+            return;
+        }
+
+
+        if (nums[depth] >= last) {
+            tmp[k] = nums[depth];
+            DFS(depth+1,k+1,nums[depth], nums,tmp);
+        }
+
+        if (nums[depth] != last)
+            DFS(depth+1, k, last, nums,tmp);
+    }
+
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        int m = nums.length;
+        int[] tmp = new int[m];
+        ans_491 = new ArrayList<>();
+        DFS(0,0,Integer.MIN_VALUE, nums, tmp);
+        return ans_491;
+    }
+
 }
 
 class Point implements Comparable<Point>{
