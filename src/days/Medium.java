@@ -1404,6 +1404,23 @@ public class Medium {
         return ans_491;
     }
 
+//    https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/
+    public int findMinArrowShots(int[][] points) {
+        if (points.length == 0)
+            return 0;
+
+        Arrays.sort(points, Comparator.comparingInt(o -> o[1]));
+        int ans = 1;
+        int pos = points[0][1];
+        for (int i = 1; i < points.length; i++) {
+            if (points[i][1] > pos) {
+                pos = points[i][1];
+                ans++;
+            }
+        }
+        return ans;
+    }
+
 }
 
 class Point implements Comparable<Point>{

@@ -35,7 +35,42 @@ public class Easy {
         }
     }
 
+//    https://leetcode-cn.com/problems/powx-n/
+    public double myPow(double x, int n) {
+        if (Math.abs(x) < 1e-8)
+            return 0.0;
 
+        boolean neg = n < 0;
+        long N = n;
+        if (neg)
+            N = -N;
+
+        boolean sign = x < 0 && (N & 1) == 1;
+
+        double ans = 1.0;
+        double b = x > 0 ? x : -x;
+
+        while (N > 0) {
+            if ((N & 1) == 1)
+                ans *= b;
+            b *= b;
+            N = N >> 1;
+        }
+
+        if (neg)
+            ans = 1.0 / ans;
+
+        if (sign)
+            return -ans;
+
+        return ans;
+
+    }
+
+//    https://leetcode-cn.com/problems/h-index-ii/
+    public int hIndex(int[] citations) {
+        return -1;
+    }
 
 }
 
@@ -102,7 +137,6 @@ class LRUCache {
             DNode deleted = head.pre;
             remove(deleted);
             lru.remove(deleted.key);
-            deleted = null;
         }
 
         DNode cur = new DNode(key, value);
