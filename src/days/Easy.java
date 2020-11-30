@@ -3,7 +3,6 @@ package days;
 
 import common.ListNode;
 
-import java.net.Inet4Address;
 import java.util.*;
 
 class TreeNode {
@@ -364,6 +363,68 @@ public class Easy {
         return ans[0];
     }
 
+
+//    https://leetcode-cn.com/problems/reorganize-string/
+    public String reorganizeString(String S) {
+        CNode[] hash = new CNode[26];
+        for (int i = 0; i < 26; i++)
+            hash[i] = new CNode();
+
+        int index;
+        char c;
+        for(int i = 0; i < S.length(); i++) {
+            c = S.charAt(i);
+            index = c - 'a';
+            hash[index].count++;
+            hash[index].ch = index;
+        }
+
+        Arrays.sort(hash, new Comparator<CNode>() {
+            public int compare(CNode o1, CNode o2) {
+                return o2.count - o1.count;
+            }
+        });
+
+        int max = hash[0].count;
+        int k = 0;
+        while (k < 26 && hash[k].count > 0) k++;
+
+        char[][] map = new char[max][k];
+
+        int col = 0;
+        int row = 0;
+        int x = 0;
+        for (int i = 0; i < k; i++) {
+            for (int j = 0; j < hash[i].count; j++) {
+                col = x / max;
+                row = x % max;
+                map[row][col] = (char)(hash[i].ch + 'a');
+                x++;
+            }
+        }
+
+        char[] ans = new char[S.length()];
+        col = 0;
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < k; j++) {
+                if (map[i][j] == 0) break;
+                if (col > 0 && ans[col - 1] == map[i][j])    return "";
+                ans[col++] = map[i][j];
+            }
+        }
+
+        return new String(ans);
+    }
+
+}
+
+class CNode {
+    int count;
+    int ch;
+    CNode() {
+        count = 0;
+        ch = 0;
+    }
 }
 
 class BNode {

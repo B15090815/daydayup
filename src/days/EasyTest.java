@@ -55,4 +55,10 @@ public class EasyTest {
         System.out.println(ans);
     }
 
+    @Test
+    public void reorganizeString() {
+        String str = "abcdaaasssoiidl";
+        System.out.println(solution.reorganizeString(str));
+    }
+
 }
