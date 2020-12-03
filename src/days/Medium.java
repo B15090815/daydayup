@@ -1421,6 +1421,43 @@ public class Medium {
         return ans;
     }
 
+//    https://leetcode-cn.com/problems/sqrtx/submissions/
+    public int mySqrt(int x) {
+        if ( x < 0)
+            return 0;
+
+        long lo = 1L;
+        long hi = x;
+        long mid = 1L;
+        long y;
+        while(lo <= hi) {
+            mid = lo + (hi - lo) / 2;
+            y = mid * mid;
+            if (y == (long) x)
+                break;
+            else if (y > (long) x) {
+                hi = mid - 1;
+            } else { // y  < x
+                lo++;
+            }
+        }
+        y = mid * mid;
+        if (y > (long) x)
+            return (int)mid - 1;
+        return (int)mid;
+    }
+
+    public int mySqrt2(int x) {
+        if (x <= 0)
+            return 0;
+        double y = 1.0;
+        while (Math.abs(y * y - x) > 0.01) {
+            y = (y + x / y) / 2.0;
+        }
+        return (int)y;
+    }
+
+
 }
 
 class Point implements Comparable<Point>{

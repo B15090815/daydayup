@@ -183,4 +183,11 @@ public class MediumTest {
         System.out.println(ans);
 
     }
+
+    @Test
+    public void mySqrt () {
+        int num = 132454;
+        int ans = solution.mySqrt2(num);
+        System.out.println(ans);
+    }
 }
