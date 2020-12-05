@@ -72,6 +72,26 @@ public class Easy {
         return -1;
     }
 
+
+//    https://leetcode-cn.com/problems/reverse-bits/
+    public int reverseBits(int n) {
+        int hi = 1 << 31;
+        int lo = 1;
+        int m, d;
+        for (int i = 0; i < 16; i++) {
+            m = n & hi;
+            d = n & lo;
+            if ((m == 0 && d != 0) || (m !=0 && d == 0)) {
+                n = n ^ hi ^ lo;
+            }
+            hi = hi >>> 1;
+            lo = lo << 1;
+        }
+
+        return n;
+
+    }
+
 }
 
 class DNode {

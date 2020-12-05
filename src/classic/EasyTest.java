@@ -20,4 +20,10 @@ public class EasyTest {
         int a = solution.hIndex(h);
         System.out.println(a);
     }
+
+    @Test
+    public void reverseBits() {
+        int n = 0x0000ffff;
+        System.out.println(solution.reverseBits(n));
+    }
 }
